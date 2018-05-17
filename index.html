@@ -1,5 +1,119 @@
+<!DOCTYPE html>
 <html>
-  <body>
-    <h1>Não</h1>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <title>Foi Goleada?</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.0.0/js/all.js"></script>
+
+
+  <style>
+    .column p {
+        padding: 10px;
+    }
+
+    .contente {
+        height: 100%
+    }
+
+    h1 {
+        padding: 10px;
+    }
+  </style>
+
+</head>
+
+<body>
+  <section class="hero is-small is-primary is-bold">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">
+          O Hugo vem hoje? Insira o último resultado do jogo do Grêmio e descubra...
+        </h1>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container" id="root"></div>
+  </section>
+  <script type="text/babel">
+    function stringToNumber(string){
+      var num = parseInt(string);
+      return isNaN(num) ? 0 : num;
+    }
+
+    class NameForm extends React.Component {
+
+      constructor(props) {
+        super(props);
+        var init = window.location.search.slice(1);
+        var values = init.split('x');
+
+        this.state = {one: stringToNumber(values[0]), two: stringToNumber(values[1])};
+
+        this.handleChangeOne = this.handleChangeOne.bind(this);
+        this.handleChangeTwo = this.handleChangeTwo.bind(this);
+      }
+
+      handleChangeOne(event) {
+        if (event.target.value > -1) {
+          this.setState({one: event.target.value});
+        }
+      }
+
+      handleChangeTwo(event) {
+        this.setState({two: event.target.value});
+      }
+
+      render() {
+        var one = parseInt(this.state.one);
+        var two = parseInt(this.state.two)
+        var oHugoVem = two > one;
+
+        return (
+          <div>
+            <div className='columns is-centered'>
+              div className='column'>
+                  <p>Grêmio <input className='input' type='number' value={this.state.one} onChange={this.handleChangeOne} /></p>
+              </div>
+              <div className='column'>
+                <p className='has-text-centered'>x</p>
+              </div>
+              <div className='column'>
+                  <p>Adversário<input className='input' type='number' value={this.state.two} onChange={this.handleChangeTwo} /></p>
+              </div>
+            </div>
+            <p className='has-text-centered'>
+              <h1 className='title'>{oHugoVem ? 'SIM' : 'NÃO'}</h1>
+            </p >
+            { oHugoVem && <p className='has-text-centered'>
+              <img src="assets/hugo.jpg" />
+            </p > }
+          </div>
+        );
+      }
+    }
+
+    ReactDOM.render(
+      <NameForm />,
+      document.getElementById('root')
+    );
+  </script>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-113373634-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', '');
+  </script>
+
+</body>
+
 </html>
